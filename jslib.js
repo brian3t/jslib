@@ -46,3 +46,69 @@ function is_nonempty_str(str) {
     return (typeof str !== "undefined") &&
         (typeof str.valueOf() === "string") && (str.length > 0);
 }
+
+
+/**
+ * Join array with glue string. Ignore null values and empty strings
+ * @param array
+ * @param glue default to ', '
+ */
+function join_ignore_null(array, glue) {
+    var res = '';
+    if (typeof glue === 'undefined') {
+        glue = ', ';
+    }
+    array.forEach(function (v, i) {
+        if (typeof v === 'undefined' || v === null || v === '' || v === false) {
+            return;
+        }
+        if (res === '') {
+            res = v;
+        } else {
+            res += glue + v;
+        }
+    });
+    return res;
+}
+
+/**
+ * Convert jQuery's serializeArray() array into assoc array
+ * Also merge input of the same name into array, e.g. union_memberships = Agent & union_memberships = Other
+ * becomes union_memberships = [Agent, Other]
+ * Also parse money value
+ * @param arr
+ * @returns assoc array, e.g. {'name': 'John', 'age': 22, 'array': ['a','b'] }
+ */
+function flat_array_to_assoc(arr) {
+    if (!_.isArray(arr)) {
+        return {};
+    }
+    var result = {};
+    arr.forEach(function (e) {
+        if (_.isObject(e)) {
+            e = _.toArray(e);
+            var key = e[0];
+            if (e.length == 2) // ["first_name", "John"]
+            {
+                var val = e[1];
+                if (typeof val == 'string') {
+                    val = val.replace('$', '');
+                }
+                if (isNumeric(val)) {
+                    val = Number(val.replace(/[^0-9\.]+/g, ""));
+                    val = parseFloat(val);
+                }
+                if (!_.has(result, key)) {
+                    result[key] = val;
+                } else {
+                    if (_.isString(result[key])) {
+                        result[key] = new Array(result[key]);
+                    }
+                    result[key].push(val);
+                }
+
+            }
+        }
+    });
+    return result;
+}
