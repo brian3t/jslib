@@ -1,0 +1,64 @@
+/**** Checkbox styling. Example at https://bootsnipp.com/snippets/featured/animated-radios-amp-checkboxes-nojs **/
+label.cr_label{
+    line-height: 1.7em;
+}
+label.cr_label span.cr_label_text{
+    vertical-align: top;
+}
+.checkbox .cr,
+.radio .cr {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #a9a9a9;
+    border-radius: .1em;
+    width: 1.7em;
+    height: 1.7em;
+    margin-right: .5em;
+}
+.checkbox .cr .cr-icon,
+.radio .cr .cr-icon {
+    position: absolute;
+    font-size: 1.2em;
+    line-height: 0;
+    top: 55%;
+    left: 10%;
+    color: #84c827;
+}
+
+.radio .cr .cr-icon {
+    margin-left: 0.04em;
+}
+.checkbox label input[type="checkbox"],
+.radio label input[type="radio"] {
+    display: none;
+}
+
+.checkbox label input[type="checkbox"] + .cr > .cr-icon,
+.radio label input[type="radio"] + .cr > .cr-icon {
+    opacity: 0;
+}
+
+.checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+.radio label input[type="radio"]:checked + .cr > .cr-icon {
+    opacity: 1;
+}
+
+.checkbox label input[type="checkbox"]:disabled + .cr,
+.radio label input[type="radio"]:disabled + .cr {
+    opacity: .5;
+}
+/**** END Checkbox styling **/
+.blue_box{
+    background-color: #d9edf6;
+    border-color: #bbeaf0;
+}
+#terms-help .checkbox{
+    padding-left: 8px;
+    padding-right: 3px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    height: 1.7em;
+}
+@media (max-width: 479px) {
+    #terms-help .checkbox{height: auto;}
+}
