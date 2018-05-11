@@ -112,3 +112,14 @@ function flat_array_to_assoc(arr) {
     });
     return result;
 }
+/**
+ * Split name into first name and last name
+ * @param {string} Full name
+ * @returns {array} First name, Last name
+ */
+ function nameToFirstLast(name){
+     name = name.trim().replace(/\s+/ig,' ');//remove extra spaces
+     var name_parts = name.split(' ');
+     var first_name = name_parts.shift();
+     return [first_name, name_parts.join(' ')];
+ }
