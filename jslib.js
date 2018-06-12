@@ -123,3 +123,26 @@ function flat_array_to_assoc(arr) {
      var first_name = name_parts.shift();
      return [first_name, name_parts.join(' ')];
  }
+
+/**
+ * Backbone print options from a collection
+ * @param collection_name e.g. venue
+ * @param name_column e.g. name
+ * @param id_column
+ * @returns {string}
+ */
+function print_option_fr_collection(collection_name, name_column, id_column = 'id') {
+    if (typeof name_column === "undefined" || !name_column) {
+        name_column = 'name';
+    }
+    var result = '<option value=""></option>';
+    if (typeof(app.collections[collection_name]) === "undefined") {
+        return result;
+    }
+
+    _.each(app.collections[collection_name].models, function (a_model) {
+        result += '<option value = "' + a_model.get(id_column) + '" >' + a_model.get(name_column) + '</option>';
+    });
+    return result;
+}
+
