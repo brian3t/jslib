@@ -146,3 +146,9 @@ function print_option_fr_collection(collection_name, name_column, id_column = 'i
     return result;
 }
 
+String.prototype.ucwords = function () {
+    return (this + '')
+        .replace(/^(.)|\s+(.)/g, function ($1) {
+            return $1.toUpperCase();
+        });
+};
