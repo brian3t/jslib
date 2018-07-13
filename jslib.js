@@ -152,3 +152,34 @@ String.prototype.ucwords = function () {
             return $1.toUpperCase();
         });
 };
+
+/**
+* Plain javascript isNumeric
+**/
+function isNumeric(n) {
+    var parsed_string_match_original = false;
+    var parsed = parseFloat(n);
+    var parsed_string = parsed.toString();//100.5
+    //check if parsed_string == n; //here n is 100.50 preg must discard trailing zero after dot
+    var parsed_string_int_decimal = parsed_string.split('.');
+    if (n === null) {
+        return false;
+    }
+    var n_int_decimal = n.toString().split('.');
+    if (parsed_string_int_decimal.length !== n_int_decimal.length) {
+        return false;
+    }
+    if (n_int_decimal[0] !== parsed_string_int_decimal[0]) {
+        return false;
+    }
+    if (parsed_string_int_decimal.length == 2) {
+        //remove trailing zero from decimal
+        var parsed_decimal = parsed_string_int_decimal[1].replace(/([1-9]+)0+/gi, '$1');
+        var n_decimal = n_int_decimal[1].replace(/([1-9]+)0+/gi, '$1');
+        if (n_decimal !== parsed_decimal) {
+            return false;
+        }
+    }
+
+    return !isNaN(parsed) && isFinite(parsed);
+}
