@@ -72,6 +72,37 @@ function join_ignore_null(array, glue) {
 }
 
 /**
+ * Plain javascript isNumeric
+ **/
+function isNumeric(n) {
+    var parsed_string_match_original = false;
+    var parsed = parseFloat(n);
+    var parsed_string = parsed.toString();//100.5
+    //check if parsed_string == n; //here n is 100.50 preg must discard trailing zero after dot
+    var parsed_string_int_decimal = parsed_string.split('.');
+    if (n === null) {
+        return false;
+    }
+    var n_int_decimal = n.toString().split('.');
+    if (parsed_string_int_decimal.length !== n_int_decimal.length) {
+        return false;
+    }
+    if (n_int_decimal[0] !== parsed_string_int_decimal[0]) {
+        return false;
+    }
+    if (parsed_string_int_decimal.length === 2) {
+        //remove trailing zero from decimal
+        var parsed_decimal = parsed_string_int_decimal[1].replace(/([1-9]+)0+/gi, '$1');
+        var n_decimal = n_int_decimal[1].replace(/([1-9]+)0+/gi, '$1');
+        if (n_decimal !== parsed_decimal) {
+            return false;
+        }
+    }
+
+    return !isNaN(parsed) && isFinite(parsed);
+}
+
+/**
  * Convert jQuery's serializeArray() array into assoc array
  * Also merge input of the same name into array, e.g. union_memberships = Agent & union_memberships = Other
  * becomes union_memberships = [Agent, Other]
@@ -88,7 +119,7 @@ function flat_array_to_assoc(arr) {
         if (_.isObject(e)) {
             e = _.toArray(e);
             var key = e[0];
-            if (e.length == 2) // ["first_name", "John"]
+            if (e.length === 2) // ["first_name", "John"]
             {
                 var val = e[1];
                 if (typeof val == 'string') {
@@ -148,38 +179,35 @@ function print_option_fr_collection(collection_name, name_column, id_column = 'i
 
 String.prototype.ucwords = function () {
     return (this + '')
-        .replace(/^(.)|\s+(.)/g, function ($1) {
+        .replace(/^(.)|\s+(.)|,+(.)/g, function ($1) {
             return $1.toUpperCase();
         });
 };
 
+
 /**
-* Plain javascript isNumeric
-**/
-function isNumeric(n) {
-    var parsed_string_match_original = false;
-    var parsed = parseFloat(n);
-    var parsed_string = parsed.toString();//100.5
-    //check if parsed_string == n; //here n is 100.50 preg must discard trailing zero after dot
-    var parsed_string_int_decimal = parsed_string.split('.');
-    if (n === null) {
-        return false;
+ * Turns a date into human-readable format
+ * @param date
+ */
+function readable_date(date) {
+    if (_.isEmpty(date)) {
+        return '';
     }
-    var n_int_decimal = n.toString().split('.');
-    if (parsed_string_int_decimal.length !== n_int_decimal.length) {
-        return false;
-    }
-    if (n_int_decimal[0] !== parsed_string_int_decimal[0]) {
-        return false;
-    }
-    if (parsed_string_int_decimal.length == 2) {
-        //remove trailing zero from decimal
-        var parsed_decimal = parsed_string_int_decimal[1].replace(/([1-9]+)0+/gi, '$1');
-        var n_decimal = n_int_decimal[1].replace(/([1-9]+)0+/gi, '$1');
-        if (n_decimal !== parsed_decimal) {
-            return false;
-        }
+    let date_obj = null;
+    //if it's a time string only
+    if (/^\d\d:\d\d(:\d\d)*$/.test(date)) {
+        date_obj = moment(`1970-01-01 ${date}`);
+    } else {
+        date_obj = moment(date);
     }
 
-    return !isNaN(parsed) && isFinite(parsed);
+    let optional_date_format = '';
+    if (/\d{4}-\d{2}-\d{2}/.test(date)){
+        optional_date_format = 'ddd, MMM DD';
+    }
+    let optional_time_format = '';
+    if (/.*\d\d:\d\d(:\d\d)*/.test(date)) {
+        optional_time_format = 'h:mmA';
+    }
+    return date_obj.format([optional_date_format, optional_time_format].join(' '));
 }
