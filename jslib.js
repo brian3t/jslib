@@ -21,7 +21,7 @@ const Jslib = {
     let m_datetime = moment.utc(`${date} ${time}`, 'YYYY-MM-DD HH:mm:ss')
     if (! m_datetime.isValid()) return 'N/A'
     m_datetime = m_datetime.tz(timezone)
-    return m_datetime.format('ddd MMM D YYYY hh:mmA')
+    return m_datetime.format('ddd MMM D hh:mmA')
   }
 }
 
