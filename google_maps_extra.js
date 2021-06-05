@@ -71,3 +71,20 @@ function geolocate(){
         });
     }
 }
+
+/**
+ *
+ */
+// eslint-disable-next-line no-unused-vars
+function geocode_full_addr(){
+  /* eslint-disable no-undef */
+  geocoder.geocode({address: app.cuser.home_address.full_address}, (results, status) => {
+      if (status === google.maps.GeocoderStatus.OK) {
+        app.cuser.home_address.geometry = results[0].geometry;
+      } else {
+        console.log("Geocode was not successful for the following reason: " + status);
+      }
+    }
+  );
+  /* eslint-enable no-undef */
+}
