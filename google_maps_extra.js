@@ -1,3 +1,7 @@
+// jslib Google maps helpers
+// Require: lodash as _
+// 6/6/21
+//
 // This sample uses the Autocomplete widget to help the user select a
 // place, then it retrieves the address components associated with that
 // place, and then it populates the form fields with those details.
@@ -5,8 +9,10 @@
 // parameter when you first load the API. For example:
 // <script
 // src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
-var placeSearch, autocomplete;
+// eslint-disable-next-line no-undef
+const google = google || {}
+const placeSearch = placeSearch || {}
+let autocomplete = autocomplete || {}
 
 const componentForm = {
     center_lat: 'LatLng.lat'
@@ -23,6 +29,7 @@ const componentForm = {
  * Requires google library loaded
  * @param elid
  */
+// eslint-disable-next-line no-unused-vars
 function init_auto_complete(elid = 'center_loc'){
     if (typeof google !== 'object') return
     // Create the autocomplete object, restricting the search predictions to
@@ -42,8 +49,8 @@ function init_auto_complete(elid = 'center_loc'){
 
 function fillInAddress(){
     // Get the place details from the autocomplete object.
-    let place = autocomplete.getPlace();
-    for (let component in componentForm) {
+    const place = autocomplete.getPlace();
+    for (const component in componentForm) {
         document.getElementById(component).value = '';
         document.getElementById(component).disabled = false;
     }
@@ -58,14 +65,15 @@ function fillInAddress(){
 
 // Bias the autocomplete object to the user's geographical location,
 // as supplied by the browser's 'navigator.geolocation' object.
+// eslint-disable-next-line no-unused-vars
 function geolocate(){
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position){
-            var geolocation = {
+        navigator.geolocation.getCurrentPosition(position => {
+            const geolocation = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
-            var circle = new google.maps.Circle(
+            const circle = new google.maps.Circle(
                 {center: geolocation, radius: position.coords.accuracy});
             autocomplete.setBounds(circle.getBounds());
         });
@@ -88,3 +96,17 @@ function geocode_full_addr(){
   );
   /* eslint-enable no-undef */
 }
+
+/**
+ * Extract results from a reverse geocoding
+ * @param geoloc_results array
+ * @param _ object Lodash
+ */
+export default function extract_reverse_geocode(geoloc_results, _){
+  let postal_code, full_addr
+  const postal_code_res = geoloc_results.filter(res => {
+    return _.isEqual(res.types, ['postal_code'])
+  })
+  return {postal_code, full_addr}
+}
+
