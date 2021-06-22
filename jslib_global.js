@@ -1,3 +1,6 @@
+exports.sleep = sleep
+
+
 function pluckRecursive(input, prop, collect) {
     collect = collect || [];
 
@@ -210,4 +213,8 @@ function readable_date(date) {
         optional_time_format = 'h:mmA';
     }
     return date_obj.format([optional_date_format, optional_time_format].join(' '));
+}
+
+function sleep(sec) {
+  return new Promise(resolve => setTimeout(resolve, sec * 1000));
 }

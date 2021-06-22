@@ -22,6 +22,11 @@ const Jslib = {
     if (! m_datetime.isValid()) return 'N/A'
     m_datetime = m_datetime.tz(timezone)
     return m_datetime.format('ddd MMM D hh:mmA')
+  },
+
+
+  sleep(sec){
+    return new Promise(resolve => setTimeout(resolve, sec * 1000));
   }
 }
 
