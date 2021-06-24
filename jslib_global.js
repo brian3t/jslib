@@ -218,3 +218,19 @@ function readable_date(date) {
 function sleep(sec) {
   return new Promise(resolve => setTimeout(resolve, sec * 1000));
 }
+
+/**
+ * Loop through an array, and execute callback_fn
+ * Only return when all executions finish
+ * This is a synchronous version of array forEach
+ * @param array
+ * @param callback_fn
+ * @return {Promise<void>}
+ */
+async function processArray(array, callback_fn) {
+  // map array to promises
+  const promises = array.map(callback_fn)
+  // wait until all promises are resolved
+  await Promise.all(promises)
+  console.log('Looping done!');
+}
