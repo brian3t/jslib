@@ -266,7 +266,7 @@ async function ax_get(url, conf = AXIOS_CONF, logging = true){
  * @param url
  * @param conf
  * @param logging
- * @return {Promise<void>}
+ * @return {Promise<{status, text}>}
  */
 async function sup_get(url, conf = AXIOS_CONF, logging = true){
   if (! valid_url.isUri(url)) {
