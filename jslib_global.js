@@ -10,11 +10,11 @@ function pluckRecursive(input, prop, collect){
   collect = collect || [];
 
   if (_.isArray(input)) {
-    _.forEach(input, function (value, key){
+    _.forEach(input, (value, key) => {
       pluckRecursive(value, prop, collect);
     });
   } else if (_.isObject(input)) {
-    _.forEach(input, function (value, key){
+    _.forEach(input, (value, key) => {
       if (key === prop) {
         collect.push(value);
       } else {
@@ -50,8 +50,8 @@ function full_address_to_addr_city(full_address){
  * @returns {boolean}
  */
 function is_nonempty_str(str){
-  return (typeof str !== "undefined") &&
-    (typeof str.valueOf() === "string") && (str.length > 0);
+  return (typeof str !== 'undefined') &&
+    (typeof str.valueOf() === 'string') && (str.length > 0);
 }
 
 
@@ -65,7 +65,7 @@ function join_ignore_null(array, glue){
   if (typeof glue === 'undefined') {
     glue = ', ';
   }
-  array.forEach(function (v, i){
+  array.forEach((v, i) => {
     if (typeof v === 'undefined' || v === null || v === '' || v === false) {
       return;
     }
@@ -122,18 +122,18 @@ function flat_array_to_assoc(arr){
     return {};
   }
   var result = {};
-  arr.forEach(function (e){
+  arr.forEach((e) => {
     if (_.isObject(e)) {
       e = _.toArray(e);
       var key = e[0];
       if (e.length === 2) // ["first_name", "John"]
       {
         var val = e[1];
-        if (typeof val == 'string') {
+        if (typeof val === 'string') {
           val = val.replace('$', '');
         }
         if (isNumeric(val)) {
-          val = Number(val.replace(/[^0-9\.]+/g, ""));
+          val = Number(val.replace(/[^0-9\.]+/g, ''));
           val = parseFloat(val);
         }
         if (! _.has(result, key)) {
@@ -171,15 +171,15 @@ function nameToFirstLast(name){
  * @returns {string}
  */
 function print_option_fr_collection(collection_name, name_column, id_column = 'id'){
-  if (typeof name_column === "undefined" || ! name_column) {
+  if (typeof name_column === 'undefined' || ! name_column) {
     name_column = 'name';
   }
   var result = '<option value=""></option>';
-  if (typeof (app.collections[collection_name]) === "undefined") {
+  if (typeof (app.collections[collection_name]) === 'undefined') {
     return result;
   }
 
-  _.each(app.collections[collection_name].models, function (a_model){
+  _.each(app.collections[collection_name].models, (a_model) => {
     result += '<option value = "' + a_model.get(id_column) + '" >' + a_model.get(name_column) + '</option>';
   });
   return result;
@@ -187,7 +187,7 @@ function print_option_fr_collection(collection_name, name_column, id_column = 'i
 
 String.prototype.ucwords = function (){
   return (this + '')
-    .replace(/^(.)|\s+(.)|,+(.)/g, function ($1){
+    .replace(/^(.)|\s+(.)|,+(.)/g, ($1) => {
       return $1.toUpperCase();
     });
 };
@@ -249,11 +249,13 @@ async function processArray(array, callback_fn){
  * @return {Promise<void>}
  */
 async function ax_get(url, conf = AXIOS_CONF, logging = true){
-  if (! valid_url.isUri(url)) return (new Promise((resolve, reject) => {
-      console.warn(`ax_get Bad url: `, url)
-      reject(false)
-    }
-  ))
+  if (! valid_url.isUri(url)) {
+    return (new Promise((resolve, reject) => {
+        console.warn(`ax_get Bad url: `, url)
+        reject(false)
+      }
+    ))
+  }
   console.log(`ax_get Getting url `, url)
   return axios.get(url, conf)
 }
@@ -267,11 +269,13 @@ async function ax_get(url, conf = AXIOS_CONF, logging = true){
  * @return {Promise<void>}
  */
 async function sup_get(url, conf = AXIOS_CONF, logging = true){
-  if (! valid_url.isUri(url)) return (new Promise((resolve, reject) => {
-      console.warn(`ax_get Bad url: `, url)
-      reject(false)
-    }
-  ))
+  if (! valid_url.isUri(url)) {
+    return (new Promise((resolve, reject) => {
+        console.warn(`ax_get Bad url: `, url)
+        reject(false)
+      }
+    ))
+  }
   console.log(`sup_get Getting url `, url)
   return superagent.get(url, conf)
 }
