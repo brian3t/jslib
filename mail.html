@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mail API</title>
+  <!-- CSS only -->
+  <link href="xlib/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="xlib/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="container-fluid">
+  <form id="mail_frm" action="#">
+    <div class="mb-3">
+      <label for="name_inp" class="form-label">Name</label>
+      <input type="text" class="form-control" id="name_inp">
+    </div>
+    <div class="mb-3">
+      <label for="from_email" class="form-label">From Email Addr</label>
+      <input type="email" class="form-control" id="from_email" aria-describedby="emailHelp">
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+      <label for="cont_inp" class="form-label">Message</label>
+      <input type="text" class="form-control" id="cont_inp">
+    </div>
+    <button type="button" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+</body>
+</html>
