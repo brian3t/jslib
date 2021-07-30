@@ -1,3 +1,10 @@
+/**
+ * Mail util
+ * Need: mail_conf.js
+ * toastr
+ * jQuery
+ * Example: mail.html
+ */
 jQuery(document).ready(($) => {
   $('#mail_btn').on('click', async (btn) => {
     btn = btn.target
