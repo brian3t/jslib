@@ -8,6 +8,9 @@ Require:
 - moment
 - moment-timezone
 
+### node-sass
+node-sass $FileName$ ../$FileNameWithoutExtension$.css --source-map true
+
 ### knexjs sqlite3
 Sometimes we want to enable debugging - to see what's sent to X3, what's their raw response. To achieve this, use knexjs with sqlite.
 Knex will depend on:
