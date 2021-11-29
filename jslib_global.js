@@ -33,10 +33,9 @@ function pluckRecursive(input, prop, collect){
  * @return array [street city , state zip Country]
  */
 function full_address_to_addr_city(full_address){
-  var result = [];
   // var full_address = '18101 Von Karman Ave, Irvine, CA 92612, USA';
-  var re = /, [A-Z]{2}\s\d+,/ig;
-  var match = re.exec(full_address);
+  const re = /, [A-Z]{2}\s\d+,/ig;
+  const match = re.exec(full_address);
   if (typeof match !== 'object' || ! match.hasOwnProperty('index')) {
     return [full_address, ''];
   } else {
@@ -61,7 +60,7 @@ function is_nonempty_str(str){
  * @param glue default to ', '
  */
 function join_ignore_null(array, glue){
-  var res = '';
+  let res = '';
   if (typeof glue === 'undefined') {
     glue = ', ';
   }
@@ -82,15 +81,14 @@ function join_ignore_null(array, glue){
  * Plain javascript isNumeric
  **/
 function isNumeric(n){
-  var parsed_string_match_original = false;
-  var parsed = parseFloat(n);
-  var parsed_string = parsed.toString();//100.5
+  const parsed = parseFloat(n);
+  const parsed_string = parsed.toString();//100.5
   //check if parsed_string == n; //here n is 100.50 preg must discard trailing zero after dot
-  var parsed_string_int_decimal = parsed_string.split('.');
+  const parsed_string_int_decimal = parsed_string.split('.');
   if (n === null) {
     return false;
   }
-  var n_int_decimal = n.toString().split('.');
+  const n_int_decimal = n.toString().split('.');
   if (parsed_string_int_decimal.length !== n_int_decimal.length) {
     return false;
   }
@@ -99,8 +97,8 @@ function isNumeric(n){
   }
   if (parsed_string_int_decimal.length === 2) {
     //remove trailing zero from decimal
-    var parsed_decimal = parsed_string_int_decimal[1].replace(/([1-9]+)0+/gi, '$1');
-    var n_decimal = n_int_decimal[1].replace(/([1-9]+)0+/gi, '$1');
+    const parsed_decimal = parsed_string_int_decimal[1].replace(/([1-9]+)0+/gi, '$1');
+    const n_decimal = n_int_decimal[1].replace(/([1-9]+)0+/gi, '$1');
     if (n_decimal !== parsed_decimal) {
       return false;
     }
@@ -121,14 +119,14 @@ function flat_array_to_assoc(arr){
   if (! _.isArray(arr)) {
     return {};
   }
-  var result = {};
+  let result = {};
   arr.forEach((e) => {
     if (_.isObject(e)) {
       e = _.toArray(e);
-      var key = e[0];
+      let key = e[0];
       if (e.length === 2) // ["first_name", "John"]
       {
-        var val = e[1];
+        let val = e[1];
         if (typeof val === 'string') {
           val = val.replace('$', '');
         }
@@ -158,8 +156,8 @@ function flat_array_to_assoc(arr){
  */
 function nameToFirstLast(name){
   name = name.trim().replace(/\s+/ig, ' ');//remove extra spaces
-  var name_parts = name.split(' ');
-  var first_name = name_parts.shift();
+  let name_parts = name.split(' ');
+  let first_name = name_parts.shift();
   return [first_name, name_parts.join(' ')];
 }
 
