@@ -1,10 +1,20 @@
-exports.ax_get = ax_get
-exports.sup_get = sup_get
-exports.sleep = sleep
+/**
+ * jslib global. Can be used in node and in browser
+ * Need: underscore as _
+ */
+
+if (typeof exports === 'function') {
+  exports.ax_get = ax_get
+  exports.sup_get = sup_get
+  exports.sleep = sleep
+}
 const AXIOS_CONF = {timeout: 3000}
-const axios = require('axios')
-const superagent = require('superagent')
-const valid_url = require('valid-url')
+if (typeof require === 'function') {
+  const axios = require('axios')
+  const superagent = require('superagent')
+  const valid_url = require('valid-url')
+}
+
 
 function pluckRecursive(input, prop, collect){
   collect = collect || [];
