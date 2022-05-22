@@ -24,6 +24,18 @@ const Jslib = {
     return m_datetime.format('ddd MMM D hh:mmA')
   },
 
+  /**
+   * Format time to simple format. e.g. 0630 becomes 630; 0800 becomes 8
+   * @param time
+   */
+  fm_time_simple(time){
+    time = moment(time, 'HHmm')
+    const hour = parseInt(time.hour())
+    let min = time.minute()
+    if (min == 0) min = ''
+    return `${time}${min}`
+  },
+
 
   sleep(sec){
     return new Promise(resolve => setTimeout(resolve, sec * 1000));
