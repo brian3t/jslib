@@ -29,13 +29,15 @@ const Jslib = {
    * @param time
    */
   fm_time_simple(time){
-    time = moment(time, 'HHmm')
+    if (! (time instanceof moment))
+      time = moment(time, 'HHmm')
+    if (! (time instanceof moment))
+      return time
     const hour = parseInt(time.hour())
     let min = time.minute()
     if (min == 0) min = ''
-    return `${time}${min}`
+    return `${hour}${min}`
   },
-
 
   sleep(sec){
     return new Promise(resolve => setTimeout(resolve, sec * 1000));
