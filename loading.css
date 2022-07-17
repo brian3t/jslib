@@ -1,0 +1,52 @@
+:root {
+  --primary: #fafafa;
+  --whirl_second: #f9690e;
+}
+
+/**************** loader https://whirl.netlify.app/  */
+
+.basic:before {
+  content: '';
+  display: block;
+  height: 50px;
+  width: 50px;
+  -webkit-animation: spin .5s infinite linear;
+  animation: spin .5s infinite linear;
+  border: 6px var(--primary) solid;
+  border-left-color: var(--whirl_second);
+  border-radius: 100%;
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+/**************** loader END */
+
+/**
+Add this to the container. Overlay
+ */
+#loading {
+  opacity: 0.7;
+  filter: alpha(opacity=20);
+  background-color: #000;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  position: fixed;
+  justify-content: center;
+  display: flex;
+  padding-top: 200px;
+}
