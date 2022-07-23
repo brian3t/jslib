@@ -287,3 +287,24 @@ async function sup_get(url, conf = AXIOS_CONF, logging = true){
   console.log(`sup_get Getting url `, url)
   return superagent.get(url, conf)
 }
+
+/**
+ * Detects whether element is on screen (in viewport)
+ * Usage: $(ele).isOnScreen()
+ * @returns {boolean}
+ */
+$.fn.isOnScreen = function(){
+
+    const win = $(window);
+    const viewport = {
+        top : win.scrollTop(),
+        left : win.scrollLeft()
+    };
+    viewport.right = viewport.left + win.width();
+    viewport.bottom = viewport.top + win.height();
+
+    const bounds = this.offset();
+    bounds.right = bounds.left + this.outerWidth();
+    bounds.bottom = bounds.top + this.outerHeight();
+    return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+}
