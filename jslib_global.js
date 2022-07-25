@@ -288,23 +288,21 @@ async function sup_get(url, conf = AXIOS_CONF, logging = true){
   return superagent.get(url, conf)
 }
 
+
 /**
- * Detects whether element is on screen (in viewport)
- * Usage: $(ele).isOnScreen()
+ * Detect whether the element is within view. For example, is the video element fully in view?
+ * @param allowance_top Extra top in pixel. For example, element can scroll off the top for an extra 50px and still be considered in view
+ * @param allowance_bottom Extra bottom
+ * @param ele Element. Default to the caller (this)
  * @returns {boolean}
  */
-$.fn.isOnScreen = function(){
+$.fn.isOnScreen = function (allowance_top = 0, allowance_bottom = allowance_top, ele){
+  if (typeof this == "object" && (!ele || typeof ele !== "object")) ele = this
+  const win = $(window);
 
-    const win = $(window);
-    const viewport = {
-        top : win.scrollTop(),
-        left : win.scrollLeft()
-    };
-    viewport.right = viewport.left + win.width();
-    viewport.bottom = viewport.top + win.height();
-
-    const bounds = this.offset();
-    bounds.right = bounds.left + this.outerWidth();
-    bounds.bottom = bounds.top + this.outerHeight();
-    return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+  const rect = ele[0].getBoundingClientRect()
+  if (rect.top < (0 - allowance_top)) return false // top is over-the-top
+  const vh = win.height()
+  if ((rect.top + ele.height()) > (vh + allowance_bottom)) return false //bottom is under-the-bottom
+  return true
 }
