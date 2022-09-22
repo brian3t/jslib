@@ -7,7 +7,7 @@
 const CHEAT = "mbmb";
 let kb_input = "";
 document.body.addEventListener('keypress',function(ev){
-    kb_input += String.fromCharCode(ev.keyCode);
+    kb_input += ev.key
     console.log(`Keyboard entered: `, kb_input)
     if(kb_input == CHEAT){
       const ls_user = ls('user')
@@ -23,5 +23,8 @@ document.body.addEventListener('keypress',function(ev){
 
 // reset input when pressing esc
 document.body.addEventListener('keyup',function(ev){
-    if(ev.keyCode == 27) kb_input = "";
-});
+    if(ev.key == '/') {
+      kb_input = ""
+      console.log(`Keypress cleared`)
+    }
+})
