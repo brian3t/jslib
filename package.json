@@ -4,6 +4,7 @@
   "dependencies": {
     "axios": "^0.24.0",
     "bootstrap-icons": "^1.9.1",
+    "local-storage": "^2.0.0",
     "moment": "^2.29.4",
     "sweetalert2": "^11.4.26"
   }
