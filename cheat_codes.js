@@ -19,7 +19,7 @@ document.body.addEventListener('keypress',function(ev){
         }).replaceAll('"',''))
         kb_input = "";
     }
-});
+})
 
 // reset input when pressing esc
 document.body.addEventListener('keyup',function(ev){
