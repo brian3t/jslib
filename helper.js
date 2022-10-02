@@ -269,8 +269,8 @@ export function sleep(sec){
   return new Promise(resolve => setTimeout(resolve, sec * 1000));
 }
 
-export function swal(title, msg, duration){
-  Swal.fire({
+export async function swal(title, msg, duration){
+  return Swal.fire({
     title: title,
     html: msg,
     timer: duration,
@@ -279,13 +279,7 @@ export function swal(title, msg, duration){
     },
     willClose: () => {
     }
-  }).then((result) => {
-    /* Read more about handling dismissals below */
-    if (result.dismiss === Swal.DismissReason.timer) {
-      console.log('Sweet alert was closed by the timer')
-    }
   })
-
 }
 
 export function title_case(str){
