@@ -269,7 +269,7 @@ export function sleep(sec){
   return new Promise(resolve => setTimeout(resolve, sec * 1000));
 }
 
-export async function swal(title, msg, duration){
+export async function swal(title, msg, duration = 3000){
   return Swal.fire({
     title: title,
     html: msg,
