@@ -1,12 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Test</title>
-    <script src="xlib/lodash.min.js"></script>
-<!--    <script src="jslib.js"></script>-->
+  <meta charset="UTF-8">
+  <title>SOCAL Web Utils</title>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- JavaScript Bundle with Popper -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+        crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+          crossorigin="anonymous"></script>
+  <script src="socal_util.js" type="module" async></script>
 </head>
 <body>
-<a href="mail.html">Mail</a>
+<div class="container-fluid">
+  <div class="row">
+    <h4 class="row w-100">1/ Compare two REST Requests </h4>
+    <div class="col-md-6">
+      <form action="">
+        <div class="form-group">
+          <label for="req_1">Request 1</label>
+          <textarea class="form-control" id="req_1" rows="8" placeholder="Request 1, e.g. https://abc.com/path?q=q">https://tdm.commuterconnections.org/mwcog/calendarservicecontrol?tripDate=9%2F28%2F2022&action=saveCommuteLogVIP&idPool=153295&noCommuteReason=0&twStart=6%3A00am&twEnd=7%3A00am&thStart=8%3A00am&thEnd=9%3A00am&totVanDriveTime=2+hr+0+min&owStart=20000&owEnd=20015&ohStart=20015&ohEnd=20030&milesDriven=30&gas=0&gallons=0&pricePerGallon=0&park=0&toll=0&other=0&specify=+&noCommute=false&passenger1id=108110&passenger1wbMiles=14&passenger1wbNoCommute=true&passenger1hbMiles=14&passenger1hbNoCommute=true&passenger2id=705297&passenger2wbMiles=10&passenger2wbNoCommute=true&passenger2hbMiles=10&passenger2hbNoCommute=true&passenger3id=681935&passenger3wbMiles=2&passenger3wbNoCommute=true&passenger3hbMiles=2&passenger3hbNoCommute=true&username=mediabeef&hashedpassword=37I8ZpvdlJ6WTinNZj55MylTNjk%3D</textarea>
+          <label for="req_1_parsed">Request 1 parsed</label>
+          <div class="form-control">
+            <pre id="req_1_parsed"></pre>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <div>
+        <label for="req_2">Request 2</label>
+        <textarea class="form-control" id="req_2" rows="8" placeholder="Request 2, e.g. https://abc.com/path?q=q">https://tdm.commuterconnections.org/mwcog/calendarservicecontrol?tripDate=9%2F28%2F2022&action=saveCommuteLogVIP&idPool=153295&noCommuteReason=0&twStart=6%3A00am&twEnd=7%3A00am&thStart=8%3A00am&thEnd=9%3A00am&totVanDriveTime=2+hr+0+min&owStart=20000&owEnd=20015&ohStart=20015&ohEnd=20030&milesDriven=30&gas=0&gallons=0&pricePerGallon=0&park=0&toll=0&other=0&specify=+&noCommute=false&passenger1id=108110&passenger1wbMiles=14&passenger1wbNoCommute=true&passenger1hbMiles=14&passenger1hbNoCommute=true&passenger2id=705297&passenger2wbMiles=10&passenger2wbNoCommute=true&passenger2hbMiles=10&passenger2hbNoCommute=true&passenger3id=681935&passenger3wbMiles=2&passenger3wbNoCommute=true&passenger3hbMiles=2&username=mediabeef&hashedpassword=37I8ZpvdlJ6WTinNZj55MylTNjk%3D</textarea>
+      </div>
+      <div>
+        <label for="req_2_parsed">Request 2 parsed</label>
+        <div class="form-control"><pre id="req_2_parsed"></pre></div>
+      </div>
+    </div>
+    <br>
+    <div class="w-100 m-2">
+      <button class="col-3 btn btn-small btn-primary" type="button" id="compare">Compare</button>
+    </div>
+    <br>
+    <div class="row">
+      <label for="diff_text_area">Difference:</label>
+      <textarea class="form-control" id="diff_text_area" rows="3"></textarea>
+    </div>
+    <hr>
+    <h4>2/ From an exec statement, remove null parameters. `EXEC @sp @var1=null, @var2=value` becomes `EXEC @sp @var2=value` </h4>
+    <form action="">
+      <div class="form-group">
+        <label for="fullsql">Full SQL exec</label>
+        <textarea class="form-control" id="fullsql" rows="12" placeholder="Example: EXEC @sp @var1=null, @var2=value"></textarea>
+      </div>
+      <button class="btn btn-small btn-primary" type="button" id="parse">Parse</button>
+    </form>
+    <hr>
+    <h4>3/ Gen debug select based on DECLARE @var1, @var2</h4>
+    <form action="">
+      <div class="form-group">
+        <label for="declaresql">Declare stmt</label>
+        <textarea class="form-control" id="declaresql" rows="12" placeholder="Example: DECLARE @userkey int, etc..."></textarea>
+      </div>
+      <button class="btn btn-small btn-primary" type="button" id="declaresql_btn">Gen Debug Select</button>
+    </form>
+    <hr>
+    <h4>3/ Convert select statement to a string. `SELECT @var FROM table` becomes 'SELECT ' + CAST(@var AS NVARCHAR(80)) + ' FROM table'</h4>
+    <form action="">
+      <div class="form-group">
+        <label for="fullsql">SELECT with @var</label>
+        <textarea class="form-control" id="sql_w_var" rows="12" placeholder="Example: SELECT @var1 FROM table WHERE col = @var2"></textarea>
+      </div>
+      <button class="btn btn-small btn-primary" type="button" id="sel_stmt_2_str">Convert @var to value</button>
+    </form>
+
+  </div>
+</div>
 </body>
+<link rel="stylesheet" href="socal_util.scss" crossorigin="anonymous">
 </html>

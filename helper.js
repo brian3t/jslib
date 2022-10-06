@@ -1,9 +1,19 @@
+var isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
+// tests if global scope is bound to window
+if (isBrowser()) {
+  console.log("running under browser");
+} else {
+  const $ = await import("jquery")
+  const _ = import("lodash")
+  const ls = import('local-storage')
+  const moment = import("moment")
+}
+/*nodejs
 import $ from "jquery"
 import _ from "lodash"
 import ls from 'local-storage'
-
 import moment from "moment"
-
+ */
 
 /*
 
@@ -230,6 +240,23 @@ export function p(latlng){
   }
   console.log(`Lat: `, latlng.lat(), `; Lng: `, latlng.lng())
   return true
+}
+
+export function query_str_to_obj(queryString){
+  let query = (queryString || window.location.search).substring(1); // delete ?
+  if (! query) {
+    return false;
+  }
+  const remove_path_regex = /([a-z_]*:[a-zA-Z.]*\/\/[a-zA-Z.\/]*\?)/g;
+  query = query.replaceAll(remove_path_regex, '')
+  return _
+    .chain(query.split('&'))
+    .map(function (params){
+      const p = params.split('=');
+      return [p[0], decodeURIComponent(p[1])];
+    })
+    .fromPairs()
+    .value();
 }
 
 export function Reachability(){
