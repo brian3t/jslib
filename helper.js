@@ -249,7 +249,7 @@ export function query_str_to_obj(queryString){
   }
   const remove_path_regex = /([a-z_]*:[a-zA-Z.]*\/\/[a-zA-Z.\/]*\?)/g;
   query = query.replaceAll(remove_path_regex, '')
-  return _
+  let obj = _
     .chain(query.split('&'))
     .map(function (params){
       const p = params.split('=');
@@ -257,6 +257,9 @@ export function query_str_to_obj(queryString){
     })
     .fromPairs()
     .value();
+
+  obj = _(obj).toPairs().sortBy(0).fromPairs().value() //sort object by key's alphabet
+  return obj
 }
 
 export function Reachability(){
