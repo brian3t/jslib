@@ -170,6 +170,49 @@ export function app_confirm(app, message, header = 'Please confirm', callback){
   alert_e.present();
 }
 
+/**
+ * Convert jQuery's serializeArray() array into assoc array
+ * Also merge input of the same name into array, e.g. union_memberships = Agent & union_memberships = Other
+ * becomes union_memberships = [Agent, Other]
+ * Also parse money value
+ * @param arr
+ * @returns assoc array, e.g. {'name': 'John', 'age': 22, 'array': ['a','b'] }
+ */
+export function flat_array_to_assoc(arr){
+  if (! _.isArray(arr)) {
+    return {};
+  }
+  let result = {};
+  arr.forEach((e) => {
+    if (_.isObject(e)) {
+      e = _.toArray(e);
+      let key = e[0];
+      if (e.length === 2) // ["first_name", "John"]
+      {
+        let val = e[1];
+        if (typeof val === 'string') {
+          val = val.replace('$', '');
+        }
+        if (isNumeric(val)) {
+          val = Number(val.replace(/[^0-9\.]+/g, ''));
+          val = parseFloat(val);
+        }
+        if (! _.has(result, key)) {
+          result[key] = val;
+        } else {
+          if (_.isString(result[key])) {
+            result[key] = new Array(result[key]);
+          }
+          result[key].push(val);
+        }
+
+      }
+    }
+  });
+  return result;
+}
+
+
 
 export function format_phone_num(phone_num){
   if (! (typeof phone_num !== 'undefined' && phone_num !== '--' && phone_num !== '')) {
@@ -217,6 +260,36 @@ export function isdef(var_name){
   return (typeof window[var_name] != "undefined");
 }
 
+/**
+ * Plain javascript isNumeric
+ **/
+function isNumeric(n){
+  const parsed = parseFloat(n);
+  const parsed_string = parsed.toString();//100.5
+  //check if parsed_string == n; //here n is 100.50 preg must discard trailing zero after dot
+  const parsed_string_int_decimal = parsed_string.split('.');
+  if (n === null) {
+    return false;
+  }
+  const n_int_decimal = n.toString().split('.');
+  if (parsed_string_int_decimal.length !== n_int_decimal.length) {
+    return false;
+  }
+  if (n_int_decimal[0] !== parsed_string_int_decimal[0]) {
+    return false;
+  }
+  if (parsed_string_int_decimal.length === 2) {
+    //remove trailing zero from decimal
+    const parsed_decimal = parsed_string_int_decimal[1].replace(/([1-9]+)0+/gi, '$1');
+    const n_decimal = n_int_decimal[1].replace(/([1-9]+)0+/gi, '$1');
+    if (n_decimal !== parsed_decimal) {
+      return false;
+    }
+  }
+
+  return ! isNaN(parsed) && isFinite(parsed);
+}
+
 export function logout(app){
   const ls = window.localStorage
   ls.setItem('justLoggedIn', 0);
@@ -230,6 +303,19 @@ export function logout(app){
   $('#start_address').val('').text('');
   $('#end_address').val('').text('');
   if (navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition) navigator.geolocation.getCurrentPosition(app.geolocation.onSuccess, app.geolocation.onError, window.GEOLOCATION_OPTIONS);
+}
+
+/**
+ * Converts an object to a query string, e.g. to simulate form.POST
+ * @param obj
+ * @return string
+ */
+export function obj_to_query_str(obj){
+  // noinspection PointlessBooleanExpressionJS
+  if (! obj || (obj instanceof Object === false)) {
+    return ''
+  }
+  return new URLSearchParams(obj).toString()
 }
 
 /*print a LatLng object*/

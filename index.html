@@ -49,7 +49,16 @@
       <textarea class="form-control" id="diff_text_area" rows="3"></textarea>
     </div>
     <hr>
-    <h4>2/ From an exec statement, remove null parameters. `EXEC @sp @var1=null, @var2=value` becomes `EXEC @sp @var2=value` </h4>
+    <h4>2/ From a form element, construct REST request </h4>
+    <form action="">
+      <div class="form-group">
+        <label for="form_array">Form array</label>
+        <textarea class="form-control" id="form_array" rows="12" placeholder="Example: {a:1, b:2}"></textarea>
+      </div>
+      <button class="btn btn-small btn-primary" type="button" id="form_array_to_rest">Parse</button>
+    </form>
+    <hr>
+    <h4>3/ From an exec statement, remove null parameters. `EXEC @sp @var1=null, @var2=value` becomes `EXEC @sp @var2=value` </h4>
     <form action="">
       <div class="form-group">
         <label for="fullsql">Full SQL exec</label>
@@ -58,7 +67,7 @@
       <button class="btn btn-small btn-primary" type="button" id="parse">Parse</button>
     </form>
     <hr>
-    <h4>3/ Gen debug select based on DECLARE @var1, @var2</h4>
+    <h4>4/ Gen debug select based on DECLARE @var1, @var2</h4>
     <form action="">
       <div class="form-group">
         <label for="declaresql">Declare stmt</label>
@@ -67,7 +76,7 @@
       <button class="btn btn-small btn-primary" type="button" id="declaresql_btn">Gen Debug Select</button>
     </form>
     <hr>
-    <h4>3/ Convert select statement to a string. `SELECT @var FROM table` becomes 'SELECT ' + CAST(@var AS NVARCHAR(80)) + ' FROM table'</h4>
+    <h4>5/ Convert select statement to a string. `SELECT @var FROM table` becomes 'SELECT ' + CAST(@var AS NVARCHAR(80)) + ' FROM table'</h4>
     <form action="">
       <div class="form-group">
         <label for="fullsql">SELECT with @var</label>
