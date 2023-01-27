@@ -10,6 +10,13 @@ Require:
 
 ### node-sass
 node-sass $FileName$ ../$FileNameWithoutExtension$.css --source-map true
+To be able to npm i node-sass:
+node -v
+v18.13.0
+npm -v
+9.4.0
+grunt-sass: "^3.1.0"
+
 
 ### knexjs sqlite3
 Sometimes we want to enable debugging - to see what's sent to X3, what's their raw response. To achieve this, use knexjs with sqlite.
