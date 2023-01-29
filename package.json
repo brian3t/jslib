@@ -2,6 +2,7 @@
   "name": "jslib",
   "version": "1.0.0",
   "dependencies": {
+    "@selectize/selectize": "^0.15.2",
     "axios": "^0.24.0",
     "bootstrap": "^5.2.1",
     "bootstrap-icons": "^1.9.1",

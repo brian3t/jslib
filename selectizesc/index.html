@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For testing select2sc</title>
+  <link rel="stylesheet" href="dist/css/selectize.css">
+  <link rel="stylesheet" href="dist/css/selectize.bootstrap5.css">
+  <script src="../node_modules/jquery/dist/jquery.min.js" type="application/javascript" ></script>
+  <script src="dist/js/selectize.js" type="application/javascript" ></script>
+  <script src="index.js" type="application/javascript" ></script>
+</head>
+<body>
+  <label for="selz_sel">Plain select ize</label>
+  <select class="selectize-input" name="selz" id="selz_sel">
+    <option value=""></option>
+    <option value=1>A</option>
+    <option value=2>B</option>
+    <option value=3>C</option>
+  </select>
+<button id="submit_btn">Ajax Submit</button>
+<textarea id="res" rows="5" cols="50">Result: </textarea>
+</body>
+</html>
