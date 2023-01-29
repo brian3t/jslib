@@ -121,7 +121,7 @@ function isNumeric(n){
  * Convert jQuery's serializeArray() array into assoc array
  * Also merge input of the same name into array, e.g. union_memberships = Agent & union_memberships = Other
  * becomes union_memberships = [Agent, Other]
- * Also parse money value
+ * Also parse money value, parse float/int value
  * @param arr
  * @returns assoc array, e.g. {'name': 'John', 'age': 22, 'array': ['a','b'] }
  */
