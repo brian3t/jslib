@@ -32,3 +32,6 @@ To install:
 `knex migrate:latest`
 
 knex will read configs from `knexfile.js`, and spin up a sqlite3 db for us, which is a file located at `./proj.sqlite3`
+
+## jsapi: 
+- Talk to Backend.
