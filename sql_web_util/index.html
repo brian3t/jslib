@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EVS Utils</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <script src="index.js" async></script>
+</head>
+<body>
+<div class="container">
+  <div class="col-md-12">
+    <h4>1/ From an exec statement, remove null parameters. `EXEC @sp @var1=null, @var2=value` becomes `EXEC @sp @var2=value` </h4>
+    <form action="">
+      <div class="form-group">
+        <label for="fullsql">Full SQL exec</label>
+        <textarea class="form-control" id="fullsql" rows="12" placeholder="Example: EXEC @sp @var1=null, @var2=value"></textarea>
+      </div>
+      <button class="btn btn-small btn-primary" type="button" id="parse">Parse</button>
+    </form>
+    <hr>
+    <h4>2/ Profile SELECT @p1,@p2 becomes param names</h4>
+    <form action="">
+      <div class="form-group">
+        <label for="sqlprofsql">Declare stmt</label>
+        <textarea class="form-control" id="sqlprofsql" rows="12" placeholder="Example: SELECT @p1,@p2"></textarea>
+      </div>
+      <button class="btn btn-small btn-primary" type="button" id="sqlprofsql_btn">Rename params</button>
+    </form>
+    <hr>
+    <h4>3/ Gen debug select based on DECLARE @var1, @var2</h4>
+    <form action="">
+      <div class="form-group">
+        <label for="declaresql">Declare stmt</label>
+        <textarea class="form-control" id="declaresql" rows="12" placeholder="Example: DECLARE @userkey int, etc..."></textarea>
+      </div>
+      <button class="btn btn-small btn-primary" type="button" id="declaresql_btn">Gen Debug Select</button>
+    </form>
+    <hr>
+    <h4>4/ Convert select statement to a string. `SELECT @var FROM table` becomes 'SELECT ' + CAST(@var AS NVARCHAR(80)) + ' FROM table'</h4>
+    <form action="">
+      <div class="form-group">
+        <label for="fullsql">SELECT with @var</label>
+        <textarea class="form-control" id="sql_w_var" rows="12" placeholder="Example: SELECT @var1 FROM table WHERE col = @var2"></textarea>
+      </div>
+      <button class="btn btn-small btn-primary" type="button" id="sel_stmt_2_str">Convert @var to value</button>
+    </form>
+
+  </div>
+</div>
+</body>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+</html>
