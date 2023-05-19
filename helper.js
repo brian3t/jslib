@@ -3,10 +3,12 @@ var isBrowser = new Function("try {return this===window;}catch(e){ return false;
 if (isBrowser()) {
   console.log("running under browser");
 } else {
-  const $ = await import("jquery")
-  const _ = import("lodash")
-  const ls = import('local-storage')
-  const moment = import("moment")
+  (async function () {
+    const $ = await import("jquery")
+    const _ = import("lodash")
+    const ls = import('local-storage')
+    const moment = import("moment")
+  }())
 }
 /*nodejs
 import $ from "jquery"
