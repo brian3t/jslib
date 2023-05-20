@@ -3,12 +3,13 @@
  * Need: underscore as _
  */
 
-if (typeof exports === 'function') {
+if (typeof exports === 'function' || typeof exports == 'object') {
   exports.ax_get = ax_get
   exports.sup_get = sup_get
   exports.sleep = sleep
 }
 const AXIOS_CONF = {timeout: 3000}
+
 if (typeof require === 'function') {
   const axios = require('axios')
   const superagent = require('superagent')
@@ -296,13 +297,15 @@ async function sup_get(url, conf = AXIOS_CONF, logging = true){
  * @param ele Element. Default to the caller (this)
  * @returns {boolean}
  */
-$.fn.isOnScreen = function (allowance_top = 0, allowance_bottom = allowance_top, ele){
-  if (typeof this == "object" && (!ele || typeof ele !== "object")) ele = this
-  const win = $(window);
+if (typeof $ !== 'undefined' && $?.fn && typeof $.fn == "function") {
+  $.fn.isOnScreen = function (allowance_top = 0, allowance_bottom = allowance_top, ele) {
+    if (typeof this == "object" && (!ele || typeof ele !== "object")) ele = this
+    const win = $(window);
 
-  const rect = ele[0].getBoundingClientRect()
-  if (rect.top < (0 - allowance_top)) return false // top is over-the-top
-  const vh = win.height()
-  if ((rect.top + ele.height()) > (vh + allowance_bottom)) return false //bottom is under-the-bottom
-  return true
+    const rect = ele[0].getBoundingClientRect()
+    if (rect.top < (0 - allowance_top)) return false // top is over-the-top
+    const vh = win.height()
+    if ((rect.top + ele.height()) > (vh + allowance_bottom)) return false //bottom is under-the-bottom
+    return true
+  }
 }
