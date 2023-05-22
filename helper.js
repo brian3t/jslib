@@ -120,11 +120,10 @@ export function fm_date_time(date, time, timezone = 'America/Los_Angeles'){
 export function fm_date_time_wp(date, time, timezone = 'America/Los_Angeles'){
   let mdate
   if (! date) {
-    mdate = lux('now')
+    mdate = moment('now')
   } else {
-    mdate = lux(date)
+    mdate = moment(date)
   }
-    return  'asdf'
 
   const mtime = moment(time, 'HH:mm:ss')
   if (! mdate.isValid() || ! mtime.isValid()) return 'N/A'
