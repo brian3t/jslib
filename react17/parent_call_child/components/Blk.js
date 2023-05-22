@@ -1,5 +1,5 @@
 import React, {forwardRef, useImperativeHandle, useState} from 'react';
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 /**
  * A block. Which is 30 minutes

@@ -7,7 +7,6 @@ if (isBrowser()) {
     const $ = await import("jquery")
     const _ = import("lodash")
     const ls = import('local-storage')
-    const moment = import("moment")
   }())
 }
 /*nodejs
@@ -16,9 +15,9 @@ import _ from "lodash"
 import ls from 'local-storage'
 import moment from "moment"
  */
-import $ from "jquery"
-import _ from "lodash"
-import moment from "moment-timezone"
+// import $ from "jquery"
+// import _ from "lodash"
+// import moment from "moment-timezone"
 
 /*
 
@@ -103,6 +102,30 @@ export function fm_date_time(date, time, timezone = 'America/Los_Angeles'){
   } else {
     mdate = moment(date)
   }
+
+  const mtime = moment(time, 'HH:mm:ss')
+  if (! mdate.isValid() || ! mtime.isValid()) return 'N/A'
+  let m_datetime = moment.utc(`${date} ${time}`, 'YYYY-MM-DD HH:mm:ss')
+  if (! m_datetime.isValid()) return 'N/A'
+  m_datetime = m_datetime.tz(timezone)
+  return m_datetime.format('ddd MMM D hh:mmA')
+}
+
+/**
+ * Format date and time into readable
+ * @param date in utc tz
+ * @param time in utc tz, format: HH:mm:ss
+ * @param timezone such as 'PST', 'UTC'
+ */
+export function fm_date_time_wp(date, time, timezone = 'America/Los_Angeles'){
+  let mdate
+  if (! date) {
+    mdate = lux('now')
+  } else {
+    mdate = lux(date)
+  }
+    return  'asdf'
+
   const mtime = moment(time, 'HH:mm:ss')
   if (! mdate.isValid() || ! mtime.isValid()) return 'N/A'
   let m_datetime = moment.utc(`${date} ${time}`, 'YYYY-MM-DD HH:mm:ss')
