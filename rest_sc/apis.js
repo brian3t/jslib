@@ -49,7 +49,7 @@ class APISocal {
   }
 
   async test(input) {
-    console.info('ENV: ', APISocal.ENV)
+    //console.info('ENV: ', APISocal.ENV)
     return `test successful. Input was : ${input}`
   }
 }
