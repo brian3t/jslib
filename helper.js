@@ -9,15 +9,16 @@ if (isBrowser()) {
     const ls = import('local-storage')
   }())
 }
-/*nodejs
+//nodejs
 import $ from "jquery"
 import _ from "lodash"
-import ls from 'local-storage'
-import moment from "moment"
- */
+// import ls from 'local-storage'
+import * as ls from "local-storage";
+
+// import moment from "moment"
 // import $ from "jquery"
 // import _ from "lodash"
-// import moment from "moment-timezone"
+import moment from "moment-timezone"
 
 /*
 

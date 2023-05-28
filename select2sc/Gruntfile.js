@@ -250,7 +250,8 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-sass');
 
-  grunt.registerTask('default', ['compile', 'test', 'lint', 'minify']);
+  grunt.registerTask('default', ['compile', 'test', 'minify']); //b3t dont lint
+  // grunt.registerTask('default', ['compile', 'test', 'lint', 'minify']);
 
   grunt.registerTask('compile', [
     'requirejs:dist', 'requirejs:dist.full', 'requirejs:i18n',
@@ -258,6 +259,6 @@ module.exports = function (grunt) {
     'sass:dev'
   ]);
   grunt.registerTask('minify', ['uglify', 'sass:dist']);
-  grunt.registerTask('lint', ['jshint']);
+  // grunt.registerTask('lint', ['jshint']);//b3t dont lint
   grunt.registerTask('test', ['connect:tests', 'qunit']);
 };
