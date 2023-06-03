@@ -4,9 +4,9 @@ if (isBrowser()) {
   console.log("running under browser");
 } else {
   (async function () {
-    const $ = await import("jquery")
-    const _ = import("lodash")
-    const ls = import('local-storage')
+    // const $ = await import("jquery")
+    // const _ = import("lodash")
+    // const ls = import('local-storage')
   }())
 }
 //nodejs

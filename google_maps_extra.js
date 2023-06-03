@@ -11,8 +11,8 @@
 // src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 // eslint-disable-next-line no-undef
 const google = window.google || {}
-const gm_places = google.maps.places || {}
-let autocomplete = google.maps.places.Autocomplete || {}
+const gm_places = google?.maps?.places || {}
+let autocomplete = google?.maps?.places.Autocomplete || {}
 
 const componentForm = {
   center_lat: 'LatLng.lat'
@@ -48,6 +48,7 @@ function init_auto_complete(elid = 'center_loc'){
 }
 
 function fillInAddress(){
+  if (typeof autocomplete !== 'object') return false
   // Get the place details from the autocomplete object.
   const place = autocomplete.getPlace();
   for (const component in componentForm) {
@@ -85,6 +86,7 @@ function geolocate(){
  */
 // eslint-disable-next-line no-unused-vars
 function geocode_full_addr(){
+  if (typeof geocoder !== 'object' || typeof app !== 'object') return false
   /* eslint-disable no-undef */
   geocoder.geocode({address: app.cuser.home_address.full_address}, (results, status) => {
       if (status === google.maps.GeocoderStatus.OK) {
