@@ -1,3 +1,5 @@
+import axios from "axios";
+
 let instance
 let globalState = {
   color: ""
