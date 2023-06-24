@@ -39,7 +39,11 @@ class APISocal {
     })
     const query_str = new URLSearchParams(query)
     const res = await axios.get(APISocal.ENV.url + ep + '?' + query_str.toString())
-    return res
+    if (!res.data){
+      console.error(`Error getting data from backend: `, res.headers)
+      return []
+    }
+    return res.data
   }
 
   getPropertyByName(propertyName) {
