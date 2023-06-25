@@ -14,6 +14,13 @@ class APISocal {
     url: ''
   }
 
+  static axios_config = {
+    headers: {
+      "content-type": "application/json"
+    }
+  }
+
+
   constructor() {
     if (instance) {
       throw new Error("New instance cannot be created!!")
@@ -39,11 +46,34 @@ class APISocal {
     })
     const query_str = new URLSearchParams(query)
     const res = await axios.get(APISocal.ENV.url + ep + '?' + query_str.toString())
-    if (!res.data){
+    if (!res.data) {
       console.error(`Error getting data from backend: `, res.headers)
       return []
     }
     return res.data
+  }
+
+  /**
+   * POST
+   * @param ep e.g. cuser
+   * @param new_obj Object {}
+   * @return [success_boolean, created_data/error msg]
+   */
+  async c(ep, new_obj) {
+    Object.keys(new_obj).forEach(key => {
+      if (typeof new_obj[key] == 'undefined') delete new_obj[key]
+    })
+    let res = false
+    try {
+      res = await axios.post(APISocal.ENV.url + ep, new_obj, APISocal.axios_config)
+    } catch (e) {
+      return [false, e.response?.data]
+    }
+    if (!res.data) {
+      console.error(`Error getting data from backend: `, res.headers)
+      return [false, res.headers.toString()]
+    }
+    return [true, res.data]
   }
 
   getPropertyByName(propertyName) {
