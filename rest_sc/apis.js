@@ -1,4 +1,5 @@
 import axios from "axios";
+import _ from "lodash";
 
 let instance
 let globalState = {
@@ -57,15 +58,18 @@ class APISocal {
    * POST
    * @param ep e.g. cuser
    * @param new_obj Object {}
+   * @param extra_headers
    * @return [success_boolean, created_data/error msg]
    */
-  async c(ep, new_obj) {
+  async c(ep, new_obj, extra_headers = {}) {
     Object.keys(new_obj).forEach(key => {
       if (typeof new_obj[key] == 'undefined') delete new_obj[key]
     })
     let res = false
+    const axios_config = APISocal.axios_config
+    axios_config.headers = _.extend(axios_config.headers, extra_headers)
     try {
-      res = await axios.post(APISocal.ENV.url + ep, new_obj, APISocal.axios_config)
+      res = await axios.post(APISocal.ENV.url + ep, new_obj, axios_config)
     } catch (e) {
       return [false, e.response?.data]
     }

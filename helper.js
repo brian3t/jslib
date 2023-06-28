@@ -163,6 +163,14 @@ export function military_time_to_moment(time){
 }
 
 /**
+ * Am I logged in?
+ * @param backend
+ * @returns {boolean}
+ */
+export function is_logged_in(backend = 'localstorage'){
+  return _.isInteger(parseInt(localStorage.getItem('userid')))
+}
+/**
  * Returns non-empty string, e.g. not null, not ''
  * @param str
  * @returns {boolean}
