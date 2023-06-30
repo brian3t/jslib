@@ -1,5 +1,6 @@
 import axios from "axios";
 import _ from "lodash";
+import store from "store2";
 
 let instance
 let globalState = {
@@ -65,6 +66,12 @@ class APISocal {
     Object.keys(new_obj).forEach(key => {
       if (typeof new_obj[key] == 'undefined') delete new_obj[key]
     })
+    if (APISocal.ENV.auth == 'ls'){
+      const userid=parseInt(store('userid'))
+      if (!_.isInteger(userid) && !(ep.endsWith('signin'))) return [false, 'Please log in first']
+      extra_headers.userid = userid
+      extra_headers.created_by = userid
+    }
     let res = false
     const axios_config = APISocal.axios_config
     axios_config.headers = _.extend(axios_config.headers, extra_headers)
