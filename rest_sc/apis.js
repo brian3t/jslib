@@ -33,6 +33,15 @@ class APISocal {
   /** Should be called just once */
   setup(env) {
     APISocal.ENV = Object.assign(APISocal.ENV, env) //no need for _.cloneDeep for now. Keep it simple
+    axios.interceptors.request.use(function (config) {
+      if (APISocal.ENV.auth == 'ls') {
+        const userid = parseInt(store('userid'))
+        if (_.isInteger(userid)) {
+          config.headers.loggedin_userid = userid.toString()
+        }
+      }
+      return config
+    })
   }
 
   //CRUD
@@ -40,14 +49,19 @@ class APISocal {
    * GET
    * @param ep e.g. cuser
    * @param query Object {}
+   * @param extra_headers
+   * @param skipped_param //do not send these query params. For example, do not send user_id; in order to get all
    */
-  async g(ep, query) {
+  async g(ep, query, extra_headers = {}, skipped_param = []) {
     if (!query.maxrows) query.maxrows = 100
     Object.keys(query).forEach(key => {
       if (typeof query[key] == 'undefined') delete query[key]
     })
     const query_str = new URLSearchParams(query)
-    const res = await axios.get(APISocal.ENV.url + ep + '?' + query_str.toString())
+    const axios_config = APISocal.axios_config
+
+    const url = APISocal.ENV.url + ep + '?' + query_str.toString()
+    const res = await axios.get(url)
     if (!res.data) {
       console.error(`Error getting data from backend: `, res.headers)
       return []
@@ -66,8 +80,8 @@ class APISocal {
     Object.keys(new_obj).forEach(key => {
       if (typeof new_obj[key] == 'undefined') delete new_obj[key]
     })
-    if (APISocal.ENV.auth == 'ls'){
-      const userid=parseInt(store('userid'))
+    if (APISocal.ENV.auth == 'ls') {
+      const userid = parseInt(store('userid'))
       if (!_.isInteger(userid) && !(ep.endsWith('signin'))) return [false, 'Please log in first']
       extra_headers.userid = userid
       extra_headers.created_by = userid
@@ -101,6 +115,7 @@ class APISocal {
   }
 }
 
-let apis = Object.freeze(new APISocal())
+let
+  apis = Object.freeze(new APISocal())
 
 export default apis
