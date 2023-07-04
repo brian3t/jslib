@@ -70,6 +70,22 @@ class APISocal {
   }
 
   /**
+   * Get first record
+   * see g()
+   * @param ep
+   * @param query
+   * @param extra_headers
+   * @param skipped_params
+   * @return {Promise<void>}
+   */
+  async g1(ep, query, extra_headers, skipped_params){
+    query.maxrows = 1
+    const get_response = await this.g(ep, query, extra_headers, skipped_params)
+    if (get_response instanceof Array) return get_response[0]
+    else return get_response
+  }
+
+  /**
    * POST
    * @param ep e.g. cuser
    * @param new_obj Object {}

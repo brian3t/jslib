@@ -8,14 +8,11 @@ if (isBrowser()) {
   (async function () {
     // const $ = await import("jquery")
     // const _ = import("lodash")
-    // const ls = import('local-storage')
   }())
 }
 //nodejs
 import $ from "jquery"
 import _ from "lodash"
-// import ls from 'local-storage'
-import * as ls from "local-storage";
 
 // import moment from "moment"
 // import $ from "jquery"
