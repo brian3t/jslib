@@ -35,3 +35,6 @@ knex will read configs from `knexfile.js`, and spin up a sqlite3 db for us, whic
 
 ## jsapi: 
 - Talk to Backend.
+
+## EventBus : 
+Simple event bus; with on, off and dispatch. Example: lno mobile app; LoginUtil and PanelRight
