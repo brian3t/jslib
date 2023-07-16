@@ -186,6 +186,17 @@ export function is_logged_in(backend = 'localstorage') {
 }
 
 /**
+ * The logged-in user object
+ * @param backend
+ * @returns {Object}
+ */
+export function get_logged_in_user(backend = 'localstorage') {
+  const userid = parseInt(store('userid'))
+  if (!_.isInteger(userid)) return {}
+  return {id: userid, username: store('username'), pw: store('pw'), prof_name: store('prof_name')}
+}
+
+/**
  * Returns non-empty string, e.g. not null, not ''
  * @param str
  * @returns {boolean}
