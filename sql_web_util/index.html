@@ -6,49 +6,108 @@
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
   <script src="index.js" async></script>
 </head>
+<style>
+  textarea {
+    font-size: 80% !important;
+  }
+</style>
 <body>
-<div class="container">
+<div class="container-fluid">
   <div class="col-md-12">
-    <h4>1/ From an exec statement, remove null parameters. `EXEC @sp @var1=null, @var2=value` becomes `EXEC @sp @var2=value` </h4>
+    <div class="form-group">
+      <label for="fullsql">Full SQL exec</label>
+      <textarea class="form-control" id="sql" rows="24" placeholder="Example: EXEC @sp @init_pick=@p1">
+       begin
+
+declare @zones table (zonekey int)
+insert into @zones(zonekey) values (2),(3),(17)
+
+SELECT max(l.locid),
+  l.lockey --7/19/23
+     , MAX(l.seq) AS seq, max(z.zonekey) AS zonekey, max(l.single_item_only) AS single_item_only, COALESCE(MAX(ls.spaces_available), MAX(l.pallet_spaces))--7/19/23
+FROM @zones z
+       JOIN tumLocZone lz (NOLOCK) ON lz.zonekey = z.zonekey AND lz.included=1
+       JOIN tumLoc l (NOLOCK) ON l.lockey = lz.lockey AND l.pick_hold=0 AND l.active=1
+       LEFT OUTER JOIN tumLocStats ls (NOLOCK) ON ls.lockey = l.lockey
+       LEFT OUTER JOIN (SELECT p.lockey, SUM(p.pallet_spaces) as reserved_spaces
+                        FROM tumLocPutaway p (NOLOCK)
+                        WHERE p.status=1 AND p.expires_utc > getutcdate() AND p.whsekey = 5
+                        GROUP BY p.lockey
+) putaway ON putaway.lockey = l.lockey
+       JOIN tumWhse (nolock) wh ON wh.whsekey=lz.whsekey
+       JOIN tumItemWhseZone (nolock) iwz ON iwz.itemkey=2941 AND iwz.whsekey=wh.whsekey
+--        LEFT OUTER JOIN @locs exist ON exist.lockey=l.lockey --7/19/23
+WHERE
+  1=1
+--   (@empty_loc = 0 OR COALESCE(ls.is_empty,1)=1)
+--   AND (@match_item_rank=0 OR l.rank = @rank)
+--   AND (l.locid >= COALESCE(@locid_from,''))
+--   AND (COALESCE(@locid_to,'')='' OR l.locid <= @locid_to)
+--   AND (COALESCE(@from_row,0)=0 OR l.row_no >= @from_row)
+--   AND (COALESCE(@to_row,0)=0 OR l.row_no <= @to_row)
+--   AND (COALESCE(@from_col,0)=0 OR l.col_no >= @from_col)
+--   AND (COALESCE(@to_col,0)=0 OR l.col_no <= @to_col)
+--   AND (COALESCE(@from_height,0)=0 OR l.height_level >= @from_height)
+--   AND (COALESCE(@to_height,0)=0 OR l.height_level <= @to_height)
+--   AND (l.require_cont = 0 OR @contkey > 0)
+--   AND (l.excl_cont = 0 OR @contkey is null)
+--   AND (l.pallet_spaces=0
+--   OR COALESCE(ls.spaces_available, l.pallet_spaces) - COALESCE(putaway.reserved_spaces,0)	- COALESCE(@spaces,0) >= 0
+--   )
+--   AND (@match_exp_date=0 OR l.lockey IN (SELECT lockey FROM @enddatelocs))
+--   AND (@stock_above=0 OR l.lockey IN (SELECT l.lockey
+--                                       FROM tumItemWhseLoc iwl (NOLOCK)
+--                                              JOIN tumLoc stockloc (NOLOCK) ON stockloc.lockey = iwl.lockey
+--                                              JOIN tumLoc l (NOLOCK) ON l.whsekey = 5 AND l.active > 0 AND l.row_no = stockloc.row_no
+--                                         AND l.col_no = stockloc.col_no AND l.height_level > stockloc.height_level
+--                                       WHERE iwl.whsekey = 5 AND iwl.itemkey = @itemkey
+--                                         AND iwl.stock_above_also=1
+-- ))
+--   AND exist.lockey IS NULL --7/19/23
+GROUP BY l.lockey
+ORDER BY MAX(iwz.putaway_seq)
+
+
+end
+
+      </textarea>
+    </div>
+    <h4>1/ From an exec statement, rename parameters. `EXEC @sp @init_pick=@p1` becomes `EXEC @sp @init_pick=@init_pick` </h4>
     <form action="">
-      <div class="form-group">
-        <label for="fullsql">Full SQL exec</label>
-        <textarea class="form-control" id="fullsql" rows="12" placeholder="Example: EXEC @sp @var1=null, @var2=value"></textarea>
-      </div>
+      <button class="btn btn-small btn-primary" type="button" id="task_1_btn">Rename Args</button>
+    </form>
+    <hr>
+    <h4>2/ From an exec statement, remove null parameters. `EXEC @sp @var1=null, @var2=value` becomes `EXEC @sp @var2=value` </h4>
+    <form action="">
       <button class="btn btn-small btn-primary" type="button" id="parse">Parse</button>
     </form>
     <hr>
-    <h4>2/ Profile SELECT @p1,@p2 becomes param names</h4>
+    <h4>3/ Gen debug select based on DECLARE @var1, @var2; Example: DECLARE @userkey int, etc...</h4>
     <form action="">
-      <div class="form-group">
-        <label for="sqlprofsql">Declare stmt</label>
-        <textarea class="form-control" id="sqlprofsql" rows="12" placeholder="Example: SELECT @p1,@p2"></textarea>
-      </div>
-      <button class="btn btn-small btn-primary" type="button" id="sqlprofsql_btn">Rename params</button>
-    </form>
-    <hr>
-    <h4>3/ Gen debug select based on DECLARE @var1, @var2</h4>
-    <form action="">
-      <div class="form-group">
-        <label for="declaresql">Declare stmt</label>
-        <textarea class="form-control" id="declaresql" rows="12" placeholder="Example: DECLARE @userkey int, etc..."></textarea>
-      </div>
       <button class="btn btn-small btn-primary" type="button" id="declaresql_btn">Gen Debug Select</button>
     </form>
     <hr>
-    <h4>4/ Convert select statement to a string. `SELECT @var FROM table` becomes 'SELECT ' + CAST(@var AS NVARCHAR(80)) + ' FROM table'</h4>
+    <h4>3b/ Gen 'select asdf @var: ' @var ;based on @var1, @var2 appearances; Example: SELECT 'asdf' @userkey int, etc...</h4>
     <form action="">
-      <div class="form-group">
-        <label for="fullsql">SELECT with @var</label>
-        <textarea class="form-control" id="sql_w_var" rows="12" placeholder="Example: SELECT @var1 FROM table WHERE col = @var2"></textarea>
-      </div>
+      <button class="btn btn-small btn-primary" type="button" id="sel_asdf_vars">Gen ASDF Select</button>
+    </form>
+    <hr>
+    <h4>4/ Gen REPLACE('@a', @a) to fill data into SQL statement </h4>
+    <button class="btn btn-small btn-primary" type="button" id="gen_replace_btn">Gen Replace()</button>
+    <hr>
+    <h4>5/ Convert select statement to a string. `SELECT @var FROM table` becomes 'SELECT ' + CAST(@var AS NVARCHAR(80)) + ' FROM table'</h4>
+    <form action="">
+      <button class="btn btn-small btn-primary" type="button" id="sel_stmt_2_str">Convert @var to value</button>
+    </form>
+    <h4>6/ Eval variables in a select statement. `SELECT @var FROM table` becomes 'SELECT ' + CAST(@var AS NVARCHAR(80)) + ' FROM table'</h4>
+    <form action="">
       <button class="btn btn-small btn-primary" type="button" id="sel_stmt_2_str">Convert @var to value</button>
     </form>
 
   </div>
 </div>
 </body>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 </html>
