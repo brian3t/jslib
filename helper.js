@@ -274,6 +274,14 @@ export function flat_array_to_assoc(arr) {
   return result;
 }
 
+/**
+ * Converts a JS object to a query string that PHP can consume using parse_str
+ * e.g.
+ * ship[index][item_id][address]=address_id&ship[index][item_id][qty]=qty
+ */
+export function arr_to_php_form_param() {
+
+}
 
 export function format_phone_num(phone_num) {
   if (!(typeof phone_num !== 'undefined' && phone_num !== '--' && phone_num !== '')) {
