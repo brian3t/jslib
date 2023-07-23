@@ -98,8 +98,11 @@ class APISocal {
     })
     if (APISocal.ENV.auth == 'ls') {
       const userid = parseInt(store('userid'))
-      if (!_.isInteger(userid) && !(ep.endsWith('signin'))) return [false, 'Please log in first']
+      const do_i_need_to_be_a_user = (!ep.endsWith('signin') && !ep.endsWith('signup')) //if not doing sign in
+                                                                    // / sign up; then yes, need to be a user to POST
+      if (do_i_need_to_be_a_user && !_.isInteger(userid)) return [false, 'Please log in first']
       extra_headers.userid = userid
+      if (!new_obj.hasOwnProperty('userid')) new_obj['userid'] = userid
       extra_headers.created_by = userid
     }
     let res = false
