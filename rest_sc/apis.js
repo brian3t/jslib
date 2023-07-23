@@ -33,6 +33,7 @@ class APISocal {
   /** Should be called just once */
   setup(env) {
     APISocal.ENV = Object.assign(APISocal.ENV, env) //no need for _.cloneDeep for now. Keep it simple
+    if (!APISocal.ENV.auth) APISocal.ENV.auth = 'ls'
     axios.interceptors.request.use(function (config) {
       if (APISocal.ENV.auth == 'ls') {
         const userid = parseInt(store('userid'))
