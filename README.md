@@ -38,3 +38,6 @@ knex will read configs from `knexfile.js`, and spin up a sqlite3 db for us, whic
 
 ## EventBus : 
 Simple event bus; with on, off and dispatch. Example: lno mobile app; LoginUtil and PanelRight
+
+## ui_util.js:
+Utilities such as creating a modal in bootstrap
