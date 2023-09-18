@@ -53,7 +53,7 @@ class APISocal {
    * @param extra_headers
    * @param skipped_param //do not send these query params. For example, do not send user_id; in order to get all
    */
-  async g(ep, query, extra_headers = {}, skipped_param = []) {
+  async g(ep, query = {}, extra_headers = {}, skipped_param = []) {
     if (!query.maxrows) query.maxrows = 100
     Object.keys(query).forEach(key => {
       if (typeof query[key] == 'undefined') delete query[key]
@@ -79,11 +79,11 @@ class APISocal {
    * @param skipped_params
    * @return {Promise<void>}
    */
-  async g1(ep, query, extra_headers, skipped_params){
+  async g1(ep, query= {}, extra_headers = {}, skipped_params = {}){
     query.maxrows = 1
     const get_response = await this.g(ep, query, extra_headers, skipped_params)
     if (get_response instanceof Array) return get_response[0]
-    else return get_response
+    else return []
   }
 
   /**
@@ -91,7 +91,7 @@ class APISocal {
    * @param ep e.g. cuser
    * @param new_obj Object {}
    * @param extra_headers
-   * @return [success_boolean, created_data/error msg]
+   * @return [] [success_boolean, created_data/error msg]
    */
   async c(ep, new_obj, extra_headers = {}) {
     Object.keys(new_obj).forEach(key => {
