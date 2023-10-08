@@ -1,4 +1,5 @@
 import store from "store2";
+import Swal from 'sweetalert2' //toast, app_alert
 
 var isBrowser = new Function("try {return this===window;}catch(e){ return false;}");
 // tests if global scope is bound to window
